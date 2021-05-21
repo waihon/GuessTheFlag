@@ -32,6 +32,8 @@ struct ContentView: View {
               .renderingMode(.original)
           }
         }
+        
+        Spacer()
       }
     }
   }

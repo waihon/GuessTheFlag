@@ -37,6 +37,7 @@ struct ContentView: View {
             Image(self.countries[number])
               .renderingMode(.original)
           }
+          .clipShape(Capsule())
         }
         
         Spacer()

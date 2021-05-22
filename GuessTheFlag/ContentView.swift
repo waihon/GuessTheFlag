@@ -43,6 +43,11 @@ struct ContentView: View {
           }
         }
         
+        Text("Score: \(score)")
+          .foregroundColor(.white)
+          .font(.title)
+          .fontWeight(.black)
+        
         Spacer()
       }
     }

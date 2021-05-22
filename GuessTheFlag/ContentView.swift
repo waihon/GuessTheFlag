@@ -33,7 +33,7 @@ struct ContentView: View {
       LinearGradient(gradient: Gradient(colors: [.blue, .black]),
                      startPoint: .top, endPoint: .bottom)
         .edgesIgnoringSafeArea(.all)
-      VStack(spacing: 30) {
+      VStack(spacing: 20) {
         VStack {
           Text("Tap the flag of")
             .foregroundColor(.white)

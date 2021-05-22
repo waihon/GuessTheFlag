@@ -49,8 +49,8 @@ struct ContentView: View {
           }) {
             Image(self.countries[number])
               .renderingMode(.original)
-              .clipShape(Capsule())
-              .overlay(Capsule().stroke(Color.black, lineWidth: 1))
+              .clipShape(RoundedRectangle(cornerRadius: 10.0))
+              .overlay(RoundedRectangle(cornerRadius: 10.0).stroke(Color.black, lineWidth: 1))
               .shadow(color: .black, radius: 2)
           }
         }

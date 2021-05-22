@@ -27,7 +27,6 @@ struct ContentView: View {
   @State private var message = ""
   @State private var score = 0
   @State private var rounds = 1
-  let maximumRounds = 20
 
   var body: some View {
     ZStack {
@@ -44,7 +43,7 @@ struct ContentView: View {
             .fontWeight(.black)
         }
         
-        ForEach(0 ..< 3) { number in
+        ForEach(0 ..< ContentView.choices) { number in
           Button(action: {
             self.flagTapped(number)
           }) {
@@ -77,7 +76,7 @@ struct ContentView: View {
     if number == correctAnswer {
       scoreTitle = "Correct"
       score += 1
-      if rounds < maximumRounds {
+      if rounds < ContentView.maximumRounds {
         message = "Your current score is \(score)."
       } else {
         message = "Your final score is \(score)."
@@ -86,7 +85,7 @@ struct ContentView: View {
       scoreTitle = "Wrong"
       score -= 1
       message = "That's the flag of \(self.countries[number])."
-      if rounds == maximumRounds {
+      if rounds == ContentView.maximumRounds {
         message += "\nYour final score is \(score)."
       }
     }
@@ -97,8 +96,8 @@ struct ContentView: View {
   
   func askQuestion() {
     countries.shuffle()
-    correctAnswer = Int.random(in: 0...2)
-    if rounds > maximumRounds {
+    correctAnswer = Int.random(in: 0 ..< ContentView.choices)
+    if rounds > ContentView.maximumRounds {
       rounds = 1
       score = 0
     }

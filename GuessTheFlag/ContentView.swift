@@ -22,11 +22,12 @@ struct ContentView: View {
     "South Korea", "Spain", "Thailand", "UK", "US", "Vietnam"
   ].shuffled()
   @State private var correctAnswer = Int.random(in: 0 ..< ContentView.choices)
-  @State private var showingScore = false
-  @State private var scoreTitle = ""
-  @State private var message = ""
+  @State private var showingAlert = false
+  @State private var alertTitle = ""
+  @State private var alertMessage = ""
   @State private var score = 0
-  @State private var rounds = 1
+  @State private var currentRound = 1
+  @State private var finalMessage = ""
 
   var body: some View {
     ZStack {
@@ -53,19 +54,27 @@ struct ContentView: View {
               .overlay(RoundedRectangle(cornerRadius: 10.0).stroke(Color.black, lineWidth: 1))
               .shadow(color: .black, radius: 2)
           }
+          .disabled(finalMessage != "")
         }
         
-        Text("Score: \(score)")
-          .foregroundColor(.white)
-          .font(.title)
-          .fontWeight(.black)
+        VStack {
+          Text("Score: \(score)")
+            .foregroundColor(.white)
+            .font(.title)
+            .fontWeight(.black)
+          
+          Text(finalMessage)
+            .foregroundColor(.white)
+            .font(.title3)
+            .fontWeight(.black)
+        }
         
         Spacer()
       }
     }
-    .alert(isPresented: $showingScore) {
-      Alert(title: Text(scoreTitle),
-            message: Text(message),
+    .alert(isPresented: $showingAlert) {
+      Alert(title: Text(alertTitle),
+            message: Text(alertMessage),
             dismissButton: .default(Text("Continue")) {
         self.askQuestion()
       })
@@ -74,34 +83,24 @@ struct ContentView: View {
   
   func flagTapped(_ number: Int) {
     if number == correctAnswer {
-      scoreTitle = "Correct"
       score += 1
-      if rounds < ContentView.maximumRounds {
-        message = "Your current score is \(score)."
-      } else {
-        message = "Your final score is \(score)."
-      }
-      showingScore = false
+      showingAlert = false
       self.askQuestion()
     } else {
-      scoreTitle = "Wrong"
-      score -= 1
-      message = "That's the flag of \(self.countries[number])."
-      if rounds == ContentView.maximumRounds {
-        message += "\nYour final score is \(score)."
-      }
-      showingScore = true
+      alertTitle = "Wrong"
+      alertMessage = "That's the flag of \(self.countries[number])."
+      showingAlert = true
     }
-    
-    rounds += 1
   }
   
   func askQuestion() {
-    countries.shuffle()
-    correctAnswer = Int.random(in: 0 ..< ContentView.choices)
-    if rounds > ContentView.maximumRounds {
-      rounds = 1
-      score = 0
+    if currentRound == ContentView.maximumRounds {
+      let percent = score * 100 / ContentView.maximumRounds
+      finalMessage = "You scored \(score) out of \(ContentView.maximumRounds) (\(percent)%)"
+    } else {
+      currentRound += 1
+      countries.shuffle()
+      correctAnswer = Int.random(in: 0 ..< ContentView.choices)
     }
   }
 }

@@ -81,6 +81,8 @@ struct ContentView: View {
       } else {
         message = "Your final score is \(score)."
       }
+      showingScore = false
+      self.askQuestion()
     } else {
       scoreTitle = "Wrong"
       score -= 1
@@ -88,10 +90,10 @@ struct ContentView: View {
       if rounds == ContentView.maximumRounds {
         message += "\nYour final score is \(score)."
       }
+      showingScore = true
     }
     
     rounds += 1
-    showingScore = true
   }
   
   func askQuestion() {

@@ -8,10 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
-  @State private var countries = ["Estonia", "France", "Germany", "Ireland",
-                                  "Italy", "Nigeria", "Poland", "Russia",
-                                  "Spain", "UK", "US"].shuffled()
-  @State private var correctAnswer = Int.random(in: 0...2)
+  static let choices = 4
+  static let maximumRounds = 20
+
+  @State private var countries = [
+    "Afghanistan", "Albania", "Algeria", "Andorra", "Angola",
+    "Antigua and Barbuda", "Argentina", "Armenia", "Aruba",
+    "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain",
+    "Bangladesh", "Barbados", "China", "Estonia", "France",
+    "Germany", "India", "Indonesia", "Ireland", "Italy",
+    "Japan", "Laos", "Malaysia", "Myanmar", "Nigeria",
+    "North Korea", "Poland", "Russia", "Singapore",
+    "South Korea", "Spain", "Thailand", "UK", "US", "Vietnam"
+  ].shuffled()
+  @State private var correctAnswer = Int.random(in: 0 ..< ContentView.choices)
   @State private var showingScore = false
   @State private var scoreTitle = ""
   @State private var message = ""

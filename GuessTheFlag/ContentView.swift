@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+struct FlagImage: View {
+  var imageName: String
+  
+  var body: some View {
+    Image(imageName)
+      .renderingMode(.original)
+      .clipShape(RoundedRectangle(cornerRadius: 10.0))
+      .overlay(RoundedRectangle(cornerRadius: 10.0).stroke(Color.black, lineWidth: 1))
+      .shadow(color: .black, radius: 2)
+  }
+}
+
 struct ContentView: View {
   static let choices = 4
   static let maximumRounds = 20
@@ -48,11 +60,7 @@ struct ContentView: View {
           Button(action: {
             self.flagTapped(number)
           }) {
-            Image(self.countries[number])
-              .renderingMode(.original)
-              .clipShape(RoundedRectangle(cornerRadius: 10.0))
-              .overlay(RoundedRectangle(cornerRadius: 10.0).stroke(Color.black, lineWidth: 1))
-              .shadow(color: .black, radius: 2)
+            FlagImage(imageName: self.countries[number])
           }
           .disabled(finalMessage != "")
         }

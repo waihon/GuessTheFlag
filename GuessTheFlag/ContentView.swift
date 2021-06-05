@@ -40,6 +40,7 @@ struct ContentView: View {
   @State private var score = 0
   @State private var currentRound = 1
   @State private var finalMessage = ""
+  @State private var animationAmount = [0.0, 0.0, 0.0, 0.0]
 
   var body: some View {
     ZStack {
@@ -63,6 +64,7 @@ struct ContentView: View {
             FlagImage(imageName: self.countries[number])
           }
           .disabled(finalMessage != "")
+          .rotation3DEffect(.degrees(animationAmount[number]), axis: (x: 0, y: 1, z:0))
         }
         
         VStack {
@@ -91,9 +93,13 @@ struct ContentView: View {
   
   func flagTapped(_ number: Int) {
     if number == correctAnswer {
+      withAnimation(.linear(duration: 1)) {
+        self.animationAmount[number] += 360
+      }
       score += 1
-      showingAlert = false
-      self.askQuestion()
+      alertTitle = "Correct"
+      alertMessage = ""
+      showingAlert = true
     } else {
       alertTitle = "Wrong"
       alertMessage = "That's the flag of \(self.countries[number])."

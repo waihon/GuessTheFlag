@@ -41,6 +41,7 @@ struct ContentView: View {
   @State private var currentRound = 1
   @State private var finalMessage = ""
   @State private var animationAmount = [0.0, 0.0, 0.0, 0.0]
+  @State private var opacity = [1.0, 1.0, 1.0, 1.0]
 
   var body: some View {
     ZStack {
@@ -65,6 +66,7 @@ struct ContentView: View {
           }
           .disabled(finalMessage != "")
           .rotation3DEffect(.degrees(animationAmount[number]), axis: (x: 0, y: 1, z:0))
+          .opacity(opacity[number])
         }
         
         VStack {
@@ -94,6 +96,13 @@ struct ContentView: View {
   func flagTapped(_ number: Int) {
     if number == correctAnswer {
       withAnimation(.linear(duration: 1)) {
+        for i in 0 ..< ContentView.choices {
+          if i == number {
+            continue
+          } else {
+            opacity[i] = 0.25
+          }
+        }
         self.animationAmount[number] += 360
       }
       score += 1
@@ -108,6 +117,7 @@ struct ContentView: View {
   }
   
   func askQuestion() {
+    opacity = [1.0, 1.0, 1.0, 1.0]
     if currentRound == ContentView.maximumRounds {
       let percent = score * 100 / ContentView.maximumRounds
       finalMessage = "You scored \(score) out of \(ContentView.maximumRounds) (\(percent)%)"

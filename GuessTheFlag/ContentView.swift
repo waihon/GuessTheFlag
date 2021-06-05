@@ -110,6 +110,13 @@ struct ContentView: View {
       alertMessage = ""
       showingAlert = true
     } else {
+      withAnimation(.linear(duration: 1)) {
+        for i in 0 ..< ContentView.choices {
+          if i == number {
+            opacity[i] = 0.25
+          }
+        }
+      }
       alertTitle = "Wrong"
       alertMessage = "That's the flag of \(self.countries[number])."
       showingAlert = true
